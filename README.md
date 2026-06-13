@@ -2,7 +2,7 @@
 
 Terminal-first portfolio built with React, TypeScript, and Vite.
 
-Live site: [https://pibuilt.github.io/piyush_portfolio/](https://pibuilt.github.io/piyush_portfolio/)
+Live site: [https://pibuilt.github.io/pibuilt-piyush_portfolio/](https://pibuilt.github.io/pibuilt-piyush_portfolio/)
 
 ## Overview
 
