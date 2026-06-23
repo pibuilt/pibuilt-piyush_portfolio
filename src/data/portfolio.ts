@@ -203,7 +203,7 @@ export const projects: ProjectEntry[] = [
   {
     name: "SupportPilot",
     stack:
-      "Python, FastAPI, React, PostgreSQL, pgvector, Redis, Celery, LangGraph, LangSmith, Grafana, Prometheus, Docker",
+      "Python, FastAPI, React, PostgreSQL, pgvector, Redis, Celery, LangGraph, LangSmith, Prometheus, Docker",
     year: "2026",
     summary:
       "A production-grade multi-tenant AI SaaS platform built for intelligent customer support, combining RAG, agent orchestration, observability, asynchronous processing, and enterprise-grade access controls.",
