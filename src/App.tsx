@@ -721,32 +721,53 @@ function CommandOutput({ commandId }: { commandId: CommandTarget }) {
     );
   }
 
-  if (commandId === 'projects') {
-    return (
-      <div className="terminal-stack">
-        {projects.map((project) => (
-          <div key={project.name} className="terminal-section">
-            <TerminalLine variant="heading">
-              {project.name} ({project.year})
+ if (commandId === 'projects') {
+  return (
+    <div className="terminal-stack">
+      {projects.map((project) => (
+        <div key={project.name} className="terminal-section">
+          <TerminalLine variant="heading">
+            {project.name} ({project.year})
+          </TerminalLine>
+
+          <TerminalLine variant="meta">
+            stack | {project.stack}
+          </TerminalLine>
+
+          <TerminalLine variant="body">
+            {project.summary}
+          </TerminalLine>
+
+          <TerminalGap />
+
+          <TerminalLine variant="label">
+            highlights
+          </TerminalLine>
+
+          {project.highlights.map((highlight) => (
+            <TerminalLine key={highlight} variant="list">
+              ▸ {highlight}
             </TerminalLine>
-            <TerminalLine variant="meta">stack | {project.stack}</TerminalLine>
-            <TerminalLine variant="body">{project.summary}</TerminalLine>
-            {project.highlights.slice(0, 2).map((highlight) => (
-              <TerminalLine key={highlight} variant="body">
-                {highlight}
-              </TerminalLine>
-            ))}
-            <TerminalLine variant="list">
-              -{' '}
-              <a className="terminal-inline-link" href={project.href} target="_blank" rel="noreferrer">
-                GitHub repo
-              </a>
-            </TerminalLine>
-          </div>
-        ))}
-      </div>
-    );
-  }
+          ))}
+
+          <TerminalGap />
+
+          <TerminalLine variant="list">
+            →{" "}
+            <a
+              className="terminal-inline-link"
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub repo
+            </a>
+          </TerminalLine>
+        </div>
+      ))}
+    </div>
+  );
+}
 
   if (commandId === 'skillset') {
     return (
