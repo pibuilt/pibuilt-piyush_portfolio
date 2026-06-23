@@ -814,33 +814,72 @@ function CommandOutput({ commandId }: { commandId: CommandTarget }) {
     );
   }
 
-  if (commandId === 'publications') {
-    return (
-      <div className="terminal-stack">
-        {publicationNote ? (
-          <>
-            <TerminalLine variant="body">{publicationNote}</TerminalLine>
-            <TerminalGap />
-          </>
-        ) : null}
-        {publications.map((publication) => (
-          <div key={publication.title} className="terminal-section compact">
-            <TerminalLine variant="heading">{publication.title}</TerminalLine>
-            <TerminalLine variant="meta">
-              {publication.venue} | {publication.year}
-            </TerminalLine>
-            <TerminalLine variant="body">{publication.summary}</TerminalLine>
-            <TerminalLine variant="list">
-              -{' '}
-              <a className="terminal-inline-link" href={publication.href} target="_blank" rel="noreferrer">
-                DOI link
-              </a>
-            </TerminalLine>
-          </div>
-        ))}
-      </div>
-    );
-  }
+if (commandId === 'publications') {
+  return (
+    <div className="terminal-stack">
+      {publicationNote ? (
+        <>
+          <TerminalLine variant="body">{publicationNote}</TerminalLine>
+          <TerminalGap />
+        </>
+      ) : null}
+
+      {publications.map((publication) => (
+        <div key={publication.title} className="terminal-section">
+          <TerminalLine variant="heading">
+            {publication.title}
+          </TerminalLine>
+
+          <TerminalLine variant="meta">
+            {publication.venue} | {publication.year}
+          </TerminalLine>
+
+          <TerminalGap />
+
+          <TerminalLine variant="body">
+            {publication.summary}
+          </TerminalLine>
+
+          <TerminalGap />
+
+          <TerminalLine variant="label">
+            highlights
+          </TerminalLine>
+
+          <TerminalLine variant="list">
+            ▸ Published in Springer as part of the Sixth Congress on Intelligent Systems
+          </TerminalLine>
+
+          <TerminalLine variant="list">
+            ▸ Proposed a hybrid intrusion detection framework combining Naive Bayes and XGBoost
+          </TerminalLine>
+
+          <TerminalLine variant="list">
+            ▸ Applied GAN-based augmentation to improve sparse attack-class detection
+          </TerminalLine>
+
+          <TerminalLine variant="list">
+            ▸ Focused on reducing false positives while improving detection performance
+          </TerminalLine>
+
+          <TerminalGap />
+
+          <TerminalLine variant="list">
+            →{' '}
+            <a
+              className="terminal-inline-link"
+              href={publication.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              DOI Link
+            </a>
+          </TerminalLine>
+        </div>
+      ))}
+    </div>
+  );
+}
 
   if (commandId === 'connect') {
     return (
