@@ -127,7 +127,7 @@ export const commands: CommandDefinition[] = [
     label: "/projects",
     aliases: ["builds", "portfolio"],
     description: "Selected projects across AI, ML, APIs, and deployment.",
-    sample: "ContractGuard, Credit Risk ML Platform, Flight Delay Predictor",
+    sample: "SupportPilot, Credit Risk ML Platform, Flight Delay Predictor",
   },
   {
     id: "skillset",
@@ -201,16 +201,16 @@ export const experience: ExperienceEntry[] = [
 
 export const projects: ProjectEntry[] = [
   {
-    name: "ContractGuard",
+    name: "SupportPilot",
     stack:
-      "FastAPI, React, Celery, Redis, FAISS, OpenRouter, SQLite, Docker Compose",
+      "Python, FastAPI, React, PostgreSQL, pgvector, Redis, Celery, LangGraph, LangSmith, Grafana, Prometheus, Docker",
     year: "2026",
     summary:
-      "A full-stack legal AI system for contract ingestion, clause extraction, risk detection, and explainable review workflows.",
-    href: "https://github.com/pibuilt/contractguard",
+      "A production-grade multi-tenant AI SaaS platform built for intelligent customer support, combining RAG, agent orchestration, observability, asynchronous processing, and enterprise-grade access controls.",
+    href: "https://github.com/pibuilt/supportpilot",
     highlights: [
-      "Asynchronous analysis pipeline for upload, extraction, clause review, and grounded risk surfacing.",
-      "Hybrid rule-plus-LLM workflow with vector retrieval for explainable contract review.",
+      "Built a LangGraph-powered orchestration layer with triage, retrieval, specialist, and tone agents for context-aware support workflows.",
+      "Implemented multi-tenant architecture with RBAC, API key management, vector search, audit logging, async processing, and observability using LangSmith and Grafana.",
     ],
   },
   {
