@@ -614,4 +614,7 @@ export const realmExit: RealmExit = {
 };
 
 export const realmObjects: RealmObject[] = [...realmLandmarks, ...realmProps, realmExit];
+export const realmJournalObjects: Array<RealmLandmark | RealmProp> = realmObjects.filter(
+  (object): object is RealmLandmark | RealmProp => object.kind !== 'exit',
+);
 export const knightAsset = realmAsset('knight.png');

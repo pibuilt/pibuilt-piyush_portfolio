@@ -4,6 +4,8 @@ import {
   REALM_HEIGHT,
   REALM_WIDTH,
   realmDecorations,
+  realmExit,
+  realmJournalObjects,
   realmMap,
   realmObjects,
   realmProps,
@@ -44,5 +46,11 @@ describe('realm configuration', () => {
 
   it('gives every optional encounter evolving dialogue', () => {
     realmProps.forEach((prop) => expect(prop.messages.length, prop.label).toBeGreaterThanOrEqual(2));
+  });
+
+  it('journals every visible interactive object except the Return Gate', () => {
+    expect(realmDecorations).toHaveLength(0);
+    expect(realmJournalObjects).toEqual(realmObjects.filter((object) => object.kind !== 'exit'));
+    expect(realmJournalObjects.some((object) => object.id === realmExit.id)).toBe(false);
   });
 });

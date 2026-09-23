@@ -7,6 +7,7 @@ import {
   TILE_SIZE,
   knightAsset,
   realmDecorations,
+  realmJournalObjects,
   realmMap,
   realmObjects,
   realmZones,
@@ -22,6 +23,7 @@ import type {
 import { findNearestReachableAdjacent, findPath, pointKey } from './pathfinding';
 import type { GridPoint } from './pathfinding';
 import { createRouteGuard } from './routeGuard';
+import { recordRapidTap } from './rapidTap';
 import './realm.css';
 
 type RealmGameProps = {
@@ -32,7 +34,7 @@ const bounds = { width: REALM_WIDTH, height: REALM_HEIGHT };
 const mapWidth = REALM_WIDTH * TILE_SIZE;
 const mapHeight = REALM_HEIGHT * TILE_SIZE;
 const stepDurationMs = 145;
-const discoverableObjects = realmObjects.filter((object) => object.kind !== 'exit');
+const discoverableObjects = realmJournalObjects;
 const offDutySequence = ['comic-crate', 'fragrance-bush', 'open-model-rock'];
 const labelledObjectIds = new Set(['project-forge', 'keyloop-hq', 'systems-lab', 'return-gate']);
 
@@ -54,6 +56,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
   const discoveredRef = useRef(new Set<string>());
   const conversationCountsRef = useRef<Record<string, number>>({});
   const interactionTrailRef = useRef<string[]>([]);
+  const rapidTapTimesRef = useRef<number[]>([]);
   const unlockedSecretsRef = useRef(new Set<string>());
 
   const [player, setPlayer] = useState<GridPoint>(PLAYER_START);
@@ -127,6 +130,18 @@ export function RealmGame({ onExit }: RealmGameProps) {
     },
     [unlockSecret],
   );
+
+  const registerMapTap = useCallback(() => {
+    const result = recordRapidTap(rapidTapTimesRef.current, performance.now());
+    rapidTapTimesRef.current = result.timestamps;
+
+    if (result.triggered) {
+      unlockSecret(
+        'breathless',
+        '“Easy—let me catch my breath.” Secret unlocked: Breathless Pathfinder.',
+      );
+    }
+  }, [unlockSecret]);
 
   const rejectDestination = useCallback((point: GridPoint) => {
     if (rejectTimerRef.current !== null) {
@@ -297,6 +312,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
 
   const handleMapClick = (event: ReactMouseEvent<HTMLDivElement>) => {
     if ((event.target as HTMLElement).closest('.realm-object')) return;
+    registerMapTap();
 
     const rect = event.currentTarget.getBoundingClientRect();
     const col = Math.floor(((event.clientX - rect.left) / rect.width) * REALM_WIDTH);
@@ -403,6 +419,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
                 style={{ left: object.position.col * TILE_SIZE, top: object.position.row * TILE_SIZE }}
                 onClick={(event) => {
                   event.stopPropagation();
+                  registerMapTap();
                   interactWith(object);
                 }}
                 aria-label={`${object.label}. Walk here and interact.`}
@@ -620,6 +637,7 @@ function DiscoveryJournal({
       <div className="realm-journal-secrets">
         <strong>hidden records</strong>
         <span>{unlockedSecrets.has('off-duty') ? '◆ Off-Duty Loadout' : '◇ ???'}</span>
+        <span>{unlockedSecrets.has('breathless') ? '◆ Breathless Pathfinder' : '◇ ???'}</span>
         <span>{unlockedSecrets.has('cartographer') ? '◆ Buildlands Cartographer' : '◇ ???'}</span>
       </div>
     </aside>
