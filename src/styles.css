@@ -852,6 +852,16 @@ button {
   padding-left: 0.4rem;
 }
 
+.command-tab-item.realm-preview-item {
+  margin-top: 0.35rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.command-tab-item.realm-preview-item span {
+  color: var(--amber-soft);
+}
+
 .command-tab-item small {
   color: var(--text-soft);
   line-height: 1.5;

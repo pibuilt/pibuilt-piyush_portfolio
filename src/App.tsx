@@ -1,5 +1,6 @@
 import { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react';
+import { RealmGame } from './realm/RealmGame';
 import {
   CommandId,
   commands,
@@ -15,8 +16,9 @@ import {
   certifications,
 } from './data/portfolio';
 
-type HiddenCommandId = 'piyush-bhuyan';
+type HiddenCommandId = 'piyush-bhuyan' | 'game';
 type CommandTarget = CommandId | HiddenCommandId;
+type PortfolioMode = 'terminal' | 'realm';
 type TurnStatus = 'processing' | 'done' | 'error';
 type TurnStage = 'scaffolding' | 'thinking';
 
@@ -46,6 +48,7 @@ const hiddenBannerCommand = '/piyush bhuyan';
 const hiddenBannerCommandNormalized = 'piyush bhuyan';
 
 function App() {
+  const [portfolioMode, setPortfolioMode] = useState<PortfolioMode>('terminal');
   const [query, setQuery] = useState('');
   const [currentTurn, setCurrentTurn] = useState<Turn | null>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -337,6 +340,15 @@ function App() {
       return;
     }
 
+    if (sanitized === 'game') {
+      setLastCommand(sanitized);
+      setQuery('');
+      setShowCommandTab(false);
+      setCurrentTurn(null);
+      setPortfolioMode('realm');
+      return;
+    }
+
     const rawCommand = rawTrimmed.startsWith('/') ? rawTrimmed : `/${sanitized}`;
     const nextCommand =
       options?.allowHidden && sanitized === hiddenBannerCommandNormalized
@@ -427,6 +439,10 @@ function App() {
       inputRef.current?.blur();
     }
   };
+
+  if (portfolioMode === 'realm') {
+    return <RealmGame onExit={() => setPortfolioMode('terminal')} />;
+  }
 
   return (
     <div className={`app-shell ${bootPhase !== 'done' ? 'preboot' : 'ready'}`}>
@@ -656,6 +672,10 @@ function CommandOutput({ commandId }: { commandId: CommandTarget }) {
         </TerminalLine>
         <TerminalLine variant="body">
           If you found this, you were curious enough to keep digging. I respect that.
+        </TerminalLine>
+        <TerminalGap />
+        <TerminalLine accent>
+          hint: enter /game in the search bar to visit The Buildlands. You can use it whenever you want.
         </TerminalLine>
       </div>
     );
@@ -1031,7 +1051,9 @@ function PromptInput({
               <span>{suggestion.label}</span>
             </button>
           ))}
-          {suggestions.length === 0 ? <div className="suggestion-empty">command not found</div> : null}
+          {suggestions.length === 0 && normalizedQuery !== 'game' ? (
+            <div className="suggestion-empty">command not found</div>
+          ) : null}
         </div>
       ) : null}
     </div>
