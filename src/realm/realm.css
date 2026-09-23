@@ -126,6 +126,7 @@
   image-rendering: pixelated;
   cursor: crosshair;
   touch-action: pan-x pan-y;
+  contain: layout paint;
 }
 
 .realm-map::before {
@@ -152,6 +153,9 @@
 .realm-tile-layer {
   position: absolute;
   inset: 0;
+  background-repeat: repeat;
+  background-size: 64px 64px;
+  image-rendering: pixelated;
 }
 
 .realm-zone-layer,
@@ -417,10 +421,13 @@
 
 .realm-player {
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 36;
   width: 64px;
   height: 64px;
-  transition: left 145ms linear, top 145ms linear;
+  transition: transform 145ms linear;
+  will-change: transform;
   pointer-events: none;
   filter: brightness(1.2) contrast(1.1) drop-shadow(3px 5px 2px rgba(0, 0, 0, 0.55));
 }
@@ -809,10 +816,53 @@
 
   .realm-viewport {
     padding: 8px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .realm-stage {
     margin: 0;
+  }
+
+  .realm-map {
+    box-shadow: 0 0 0 3px rgba(14, 8, 17, 0.72);
+  }
+
+  .realm-map::before,
+  .realm-landmark-effect {
+    display: none;
+  }
+
+  .realm-zone {
+    border-color: rgba(255, 255, 255, 0.04);
+    box-shadow: none;
+  }
+
+  .realm-object {
+    touch-action: pan-x pan-y;
+  }
+
+  .realm-object-image,
+  .realm-object.landmark .realm-object-image,
+  .realm-object.exit .realm-object-image,
+  .realm-player,
+  .realm-player.walking {
+    filter: none;
+  }
+
+  .realm-object.flying,
+  .tree-sway .realm-object-image,
+  .realm-object.discovery.npc::before,
+  .realm-object.discovery.npc .realm-object-image,
+  .realm-object.discovery.npc::after,
+  .realm-object.credits-icon::after,
+  .terminal-pulse .realm-object-image,
+  .mana-glow .realm-object-image,
+  .realm-marker {
+    animation: none;
+  }
+
+  .realm-dialog-backdrop {
+    backdrop-filter: none;
   }
 
   .realm-dialog {

@@ -307,8 +307,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
   };
 
   const playerStyle = {
-    left: player.col * TILE_SIZE,
-    top: player.row * TILE_SIZE,
+    transform: `translate3d(${player.col * TILE_SIZE}px, ${player.row * TILE_SIZE}px, 0)`,
   } satisfies CSSProperties;
   const mapStyle = {
     width: mapWidth,
@@ -342,18 +341,24 @@ export function RealmGame({ onExit }: RealmGameProps) {
             role="application"
             aria-label="Interactive portfolio realm. Click an open tile to walk or choose a labelled landmark."
           >
-            <div className="realm-tile-layer" aria-hidden="true">
+            <div
+              className="realm-tile-layer"
+              aria-hidden="true"
+              style={{ backgroundImage: `url(${tileAssets.grassAlt})` }}
+            >
               {realmMap.flatMap((row, rowIndex) =>
-                row.map((tile, colIndex) => (
-                  <img
-                    key={`${colIndex}-${rowIndex}`}
-                    className="realm-tile"
-                    src={tileAssets[tile]}
-                    alt=""
-                    draggable={false}
-                    style={{ left: colIndex * TILE_SIZE, top: rowIndex * TILE_SIZE }}
-                  />
-                )),
+                row.map((tile, colIndex) =>
+                  tile === 'grass' ? (
+                    <img
+                      key={`${colIndex}-${rowIndex}`}
+                      className="realm-tile"
+                      src={tileAssets.grass}
+                      alt=""
+                      draggable={false}
+                      style={{ left: colIndex * TILE_SIZE, top: rowIndex * TILE_SIZE }}
+                    />
+                  ) : null,
+                ),
               )}
             </div>
 
@@ -438,7 +443,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
       </div>
 
       <footer className="realm-credits">
-        Realm art: Kenney Medieval RTS (CC0), MurphysDad robot-lab (CC0), and Calciumtrice Simple Knight (CC-BY).
+        Realm art: Kenney Medieval RTS (CC0), MurphysDad robot-lab (CC0), and zwonky Knights (CC0).
       </footer>
 
       {activeDialog ? (

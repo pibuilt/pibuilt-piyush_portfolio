@@ -244,12 +244,12 @@ export const realmLandmarks: RealmLandmark[] = [
     details: [
       'Medieval world, buildings, scenery, and units: Kenney Vleugels — Medieval RTS Pack, released under CC0.',
       'Laboratory machines, drones, and technology props: Murphy’s Dad — Robot Lab, released under CC0.',
-      'The playable knight sprite: Calciumtrice — Simple Knight, used under CC-BY.',
+      'The playable knight sprite: zwonky — Knights, released under CC0.',
     ],
     actions: [
       { label: 'Kenney Vleugels ↗', href: 'https://kenney.nl/assets/medieval-rts' },
       { label: 'Murphy’s Dad ↗', href: 'https://murphysdad.itch.io/robot-lab-asset-pack' },
-      { label: 'Calciumtrice ↗', href: 'https://opengameart.org/content/simple-knight' },
+      { label: 'zwonky ↗', href: 'https://opengameart.org/content/knights' },
     ],
   },
 ];
