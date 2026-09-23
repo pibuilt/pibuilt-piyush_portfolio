@@ -116,7 +116,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
         setDiscovered(next);
 
         if (next.size === discoverableObjects.length) {
-          unlockSecret('cartographer', 'Secret unlocked: Buildlands Cartographer — every story in the field has been found.');
+          unlockSecret('cartographer', 'Secret unlocked: Buildlands Cartographer. Every story in the field has been found.');
         }
       }
 
@@ -124,7 +124,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
         const trail = [...interactionTrailRef.current, object.id].slice(-offDutySequence.length);
         interactionTrailRef.current = trail;
         if (trail.every((id, index) => id === offDutySequence[index])) {
-          unlockSecret('off-duty', 'Secret unlocked: Off-Duty Loadout — comics, fragrance, and a local model.');
+          unlockSecret('off-duty', 'Secret unlocked: Off-Duty Loadout. Comics, fragrance, and a local model.');
         }
       }
     },
@@ -138,7 +138,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
     if (result.triggered) {
       unlockSecret(
         'breathless',
-        '“Easy—let me catch my breath.” Secret unlocked: Breathless Pathfinder.',
+        '“Easy. Let me catch my breath.” Secret unlocked: Breathless Pathfinder.',
       );
     }
   }, [unlockSecret]);

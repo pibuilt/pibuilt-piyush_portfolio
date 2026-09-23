@@ -170,7 +170,7 @@ export const realmLandmarks: RealmLandmark[] = [
     asset: realmAsset('structures/structure-11.png'),
     effect: 'pages',
     details: [
-      'Layered Security — Gradient Boosting Meets Naive Bayes for Intrusion Detection.',
+      'Layered Security: Gradient Boosting Meets Naive Bayes for Intrusion Detection.',
       'Published in the Sixth Congress on Intelligent Systems, Springer LNNS Vol. 1837.',
       'Combines Naive Bayes, XGBoost, and GAN augmentation to improve rare-attack detection.',
     ],
@@ -242,9 +242,9 @@ export const realmLandmarks: RealmLandmark[] = [
     className: 'credits-icon',
     effect: 'terminal',
     details: [
-      'Medieval world, buildings, scenery, and units: Kenney Vleugels — Medieval RTS Pack, released under CC0.',
-      'Laboratory machines, drones, and technology props: Murphy’s Dad — Robot Lab, released under CC0.',
-      'The playable knight sprite: zwonky — Knights, released under CC0.',
+      'Medieval world, buildings, scenery, and units: Kenney Vleugels, Medieval RTS Pack, released under CC0.',
+      'Laboratory machines, drones, and technology props: Murphy’s Dad, Robot Lab, released under CC0.',
+      'The playable knight sprite: zwonky, Knights, released under CC0.',
     ],
     actions: [
       { label: 'Kenney Vleugels ↗', href: 'https://kenney.nl/assets/medieval-rts' },
