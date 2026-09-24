@@ -24,6 +24,7 @@ import { findNearestReachableAdjacent, findPath, pointKey } from './pathfinding'
 import type { GridPoint } from './pathfinding';
 import { createRouteGuard } from './routeGuard';
 import { recordRapidTap } from './rapidTap';
+import { loadJournalState, saveJournalState } from './realmJournal';
 import './realm.css';
 
 type RealmGameProps = {
@@ -46,6 +47,7 @@ type ActiveDialog = {
 const wait = (duration: number) => new Promise<void>((resolve) => window.setTimeout(resolve, duration));
 
 export function RealmGame({ onExit }: RealmGameProps) {
+  const journalState = loadJournalState();
   const viewportRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<GridPoint>(PLAYER_START);
   const routeGuardRef = useRef(createRouteGuard());
@@ -53,11 +55,11 @@ export function RealmGame({ onExit }: RealmGameProps) {
   const exitTimerRef = useRef<number | null>(null);
   const achievementTimerRef = useRef<number | null>(null);
   const hasCenteredRef = useRef(false);
-  const discoveredRef = useRef(new Set<string>());
-  const conversationCountsRef = useRef<Record<string, number>>({});
-  const interactionTrailRef = useRef<string[]>([]);
+  const discoveredRef = useRef(new Set(journalState.discovered));
+  const conversationCountsRef = useRef<Record<string, number>>(journalState.conversationCounts);
+  const interactionTrailRef = useRef<string[]>(journalState.interactionTrail);
   const rapidTapTimesRef = useRef<number[]>([]);
-  const unlockedSecretsRef = useRef(new Set<string>());
+  const unlockedSecretsRef = useRef(new Set(journalState.unlockedSecrets));
 
   const [player, setPlayer] = useState<GridPoint>(PLAYER_START);
   const [scale, setScale] = useState(1);
@@ -67,8 +69,8 @@ export function RealmGame({ onExit }: RealmGameProps) {
   const [target, setTarget] = useState<GridPoint | null>(null);
   const [rejectedTarget, setRejectedTarget] = useState<GridPoint | null>(null);
   const [activeDialog, setActiveDialog] = useState<ActiveDialog | null>(null);
-  const [discovered, setDiscovered] = useState(new Set<string>());
-  const [unlockedSecrets, setUnlockedSecrets] = useState(new Set<string>());
+  const [discovered, setDiscovered] = useState(() => discoveredRef.current);
+  const [unlockedSecrets, setUnlockedSecrets] = useState(() => unlockedSecretsRef.current);
   const [journalOpen, setJournalOpen] = useState(false);
   const [achievement, setAchievement] = useState<string | null>(null);
   const [status, setStatus] = useState('Choose a landmark or any open tile.');
@@ -88,6 +90,15 @@ export function RealmGame({ onExit }: RealmGameProps) {
     [],
   );
 
+  const persistJournal = useCallback(() => {
+    saveJournalState({
+      discovered: Array.from(discoveredRef.current),
+      unlockedSecrets: Array.from(unlockedSecretsRef.current),
+      conversationCounts: conversationCountsRef.current,
+      interactionTrail: interactionTrailRef.current,
+    });
+  }, []);
+
   const showAchievement = useCallback((message: string) => {
     if (achievementTimerRef.current !== null) window.clearTimeout(achievementTimerRef.current);
     setAchievement(message);
@@ -104,8 +115,9 @@ export function RealmGame({ onExit }: RealmGameProps) {
       unlockedSecretsRef.current = next;
       setUnlockedSecrets(next);
       showAchievement(message);
+      persistJournal();
     },
-    [showAchievement],
+    [persistJournal, showAchievement],
   );
 
   const recordDiscovery = useCallback(
@@ -127,8 +139,10 @@ export function RealmGame({ onExit }: RealmGameProps) {
           unlockSecret('off-duty', 'Secret unlocked: Off-Duty Loadout. Comics, fragrance, and a local model.');
         }
       }
+
+      persistJournal();
     },
-    [unlockSecret],
+    [persistJournal, unlockSecret],
   );
 
   const registerMapTap = useCallback(() => {
@@ -298,6 +312,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
           const count = conversationCountsRef.current[object.id] ?? 0;
           const message = object.messages[count % object.messages.length];
           conversationCountsRef.current[object.id] = count + 1;
+          persistJournal();
           setActiveDialog({ object, message });
           setStatus(`${object.label} discovered.`);
           return;
@@ -307,7 +322,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
         exitTimerRef.current = window.setTimeout(onExit, 420);
       });
     },
-    [blocked, onExit, recordDiscovery, rejectDestination, travel],
+    [blocked, onExit, persistJournal, recordDiscovery, rejectDestination, travel],
   );
 
   const handleMapClick = (event: ReactMouseEvent<HTMLDivElement>) => {
