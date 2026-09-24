@@ -37,7 +37,7 @@ const mapHeight = REALM_HEIGHT * TILE_SIZE;
 const stepDurationMs = 145;
 const discoverableObjects = realmJournalObjects;
 const offDutySequence = ['comic-crate', 'fragrance-bush', 'open-model-rock'];
-const labelledObjectIds = new Set(['project-forge', 'keyloop-hq', 'systems-lab', 'return-gate']);
+const labelledObjectIds = new Set(['project-forge', 'the-workplace', 'systems-lab', 'return-gate']);
 
 type ActiveDialog = {
   object: RealmLandmark | RealmProp;

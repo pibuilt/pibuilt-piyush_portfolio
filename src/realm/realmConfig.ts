@@ -90,9 +90,9 @@ export const realmMap: RealmTile[][] = Array.from({ length: REALM_HEIGHT }, (_, 
 
 export const realmLandmarks: RealmLandmark[] = [
   {
-    id: 'keyloop-hq',
+    id: 'the-workplace',
     kind: 'landmark',
-    label: 'Keyloop HQ',
+    label: 'The Workplace',
     kicker: 'The production keep · experience',
     position: { col: 9, row: 2 },
     asset: realmAsset('structures/structure-06.png'),
@@ -301,9 +301,9 @@ export const realmProps: RealmProp[] = [
     ],
   },
   {
-    id: 'oracle-monitor',
+    id: 'oracle-of-delphi',
     kind: 'discovery',
-    label: 'Project Oracle',
+    label: 'Oracle of Delphi',
     position: { col: 14, row: 3 },
     asset: realmAsset('lab/monitor_popup.png'),
     displayWidth: 66,
