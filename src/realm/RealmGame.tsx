@@ -185,7 +185,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
       const compact = width < 760;
       const padding = compact ? 16 : 28;
       const fitted = Math.min((width - padding) / mapWidth, (height - padding) / mapHeight, 1);
-      setScale(compact ? Math.max(0.7, fitted) : Math.max(0.45, fitted));
+      setScale(compact ? Math.max(0.5, fitted) : Math.max(0.45, fitted));
     };
 
     const observer = new ResizeObserver(updateScale);
@@ -207,6 +207,27 @@ export function RealmGame({ onExit }: RealmGameProps) {
 
     return () => window.cancelAnimationFrame(animationFrame);
   }, [scale]);
+
+  useEffect(() => {
+    if (!walking) return;
+
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const mapStage = viewport.firstElementChild as HTMLElement | null;
+    if (!mapStage) return;
+
+    const maxScrollLeft = Math.max(0, mapStage.offsetWidth - viewport.clientWidth);
+    const maxScrollTop = Math.max(0, mapStage.offsetHeight - viewport.clientHeight);
+    viewport.scrollLeft = Math.min(
+      maxScrollLeft,
+      Math.max(0, player.col * TILE_SIZE * scale - viewport.clientWidth / 2),
+    );
+    viewport.scrollTop = Math.min(
+      maxScrollTop,
+      Math.max(0, player.row * TILE_SIZE * scale - viewport.clientHeight / 2),
+    );
+  }, [player, scale, walking]);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {

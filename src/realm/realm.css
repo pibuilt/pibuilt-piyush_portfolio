@@ -8,7 +8,8 @@
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  min-height: 620px;
+  height: 100dvh;
+  min-height: 560px;
   overflow: hidden;
   background:
     radial-gradient(circle at 18% 12%, rgba(118, 214, 174, 0.12), transparent 30%),
@@ -783,13 +784,13 @@
 
 @media (max-width: 760px) {
   .realm-shell {
-    min-height: 520px;
+    min-height: 480px;
   }
 
   .realm-hud {
     flex-wrap: wrap;
     align-items: flex-start;
-    min-height: 116px;
+    min-height: 100px;
     padding: 0.72rem 0.8rem;
   }
 
@@ -878,6 +879,43 @@
 
   .realm-journal-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-height: 560px) {
+  .realm-shell {
+    min-height: auto;
+  }
+
+  .realm-hud {
+    min-height: 64px;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .realm-hud-copy {
+    max-width: none;
+    text-align: right;
+  }
+
+  .realm-hud-copy span {
+    display: none;
+  }
+
+  .realm-viewport {
+    padding: 6px;
+  }
+
+  .realm-credits {
+    min-height: 22px;
+    padding: 5px 10px;
+    font-size: 8px;
+  }
+
+  .realm-journal {
+    top: 76px;
+    right: 10px;
+    max-height: calc(100vh - 110px);
+    max-height: calc(100dvh - 110px);
   }
 }
 
