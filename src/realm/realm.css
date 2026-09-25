@@ -445,6 +445,10 @@
   image-rendering: pixelated;
 }
 
+.realm-player-sprite.transforming {
+  animation: realm-armor-transform 820ms ease-in-out;
+}
+
 .realm-marker {
   position: absolute;
   z-index: 30;
@@ -685,6 +689,21 @@
   animation: realm-achievement-in 260ms ease-out;
 }
 
+@keyframes realm-armor-transform {
+  0% {
+    transform: rotate(0deg) scale(1);
+    filter: brightness(1) drop-shadow(0 0 0 rgba(255, 228, 145, 0));
+  }
+  50% {
+    transform: rotate(180deg) scale(1.22);
+    filter: brightness(1.35) drop-shadow(0 0 18px rgba(255, 228, 145, 0.95));
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    filter: brightness(1.2) drop-shadow(3px 5px 2px rgba(0, 0, 0, 0.55));
+  }
+}
+
 @keyframes realm-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
@@ -922,6 +941,10 @@
 @media (prefers-reduced-motion: reduce) {
   .realm-player {
     transition-duration: 0.01ms;
+  }
+
+  .realm-player-sprite.transforming {
+    animation: none;
   }
 
   .realm-object.flying,

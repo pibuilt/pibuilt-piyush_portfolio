@@ -35,6 +35,12 @@ const bounds = { width: REALM_WIDTH, height: REALM_HEIGHT };
 const mapWidth = REALM_WIDTH * TILE_SIZE;
 const mapHeight = REALM_HEIGHT * TILE_SIZE;
 const stepDurationMs = 145;
+const knightRow = 3;
+const lightweightKnightRow = 4;
+const armorSwapMs = 410;
+const armorTransformMs = 820;
+const armorRevealDelayMs = 620;
+const achievementDurationMs = 5000;
 const discoverableObjects = realmJournalObjects;
 const offDutySequence = ['comic-crate', 'fragrance-bush', 'open-model-rock'];
 const labelledObjectIds = new Set(['project-forge', 'the-workplace', 'systems-lab', 'return-gate']);
@@ -53,8 +59,9 @@ export function RealmGame({ onExit }: RealmGameProps) {
   const routeGuardRef = useRef(createRouteGuard());
   const rejectTimerRef = useRef<number | null>(null);
   const exitTimerRef = useRef<number | null>(null);
-  const achievementTimerRef = useRef<number | null>(null);
-  const hasCenteredRef = useRef(false);
+const achievementTimerRef = useRef<number | null>(null);
+const armorTimerRef = useRef<number | null>(null);
+const hasCenteredRef = useRef(false);
   const discoveredRef = useRef(new Set(journalState.discovered));
   const conversationCountsRef = useRef<Record<string, number>>(journalState.conversationCounts);
   const interactionTrailRef = useRef<string[]>(journalState.interactionTrail);
@@ -71,6 +78,10 @@ export function RealmGame({ onExit }: RealmGameProps) {
   const [activeDialog, setActiveDialog] = useState<ActiveDialog | null>(null);
   const [discovered, setDiscovered] = useState(() => discoveredRef.current);
   const [unlockedSecrets, setUnlockedSecrets] = useState(() => unlockedSecretsRef.current);
+  const [playerRow, setPlayerRow] = useState(() =>
+    unlockedSecretsRef.current.has('light-armor') ? lightweightKnightRow : knightRow,
+  );
+  const [transforming, setTransforming] = useState(false);
   const [journalOpen, setJournalOpen] = useState(false);
   const [achievement, setAchievement] = useState<string | null>(null);
   const [status, setStatus] = useState('Choose a landmark or any open tile.');
@@ -105,7 +116,7 @@ export function RealmGame({ onExit }: RealmGameProps) {
     achievementTimerRef.current = window.setTimeout(() => {
       setAchievement(null);
       achievementTimerRef.current = null;
-    }, 5200);
+    }, achievementDurationMs);
   }, []);
 
   const unlockSecret = useCallback(
@@ -145,17 +156,48 @@ export function RealmGame({ onExit }: RealmGameProps) {
     [persistJournal, unlockSecret],
   );
 
+  const startArmorTransform = useCallback(() => {
+    if (armorTimerRef.current !== null) window.clearTimeout(armorTimerRef.current);
+
+    armorTimerRef.current = window.setTimeout(() => {
+      setTransforming(true);
+
+      armorTimerRef.current = window.setTimeout(() => {
+        setPlayerRow(lightweightKnightRow);
+        armorTimerRef.current = window.setTimeout(() => {
+          setTransforming(false);
+          armorTimerRef.current = null;
+        }, armorTransformMs - armorSwapMs);
+      }, armorSwapMs);
+    }, armorRevealDelayMs);
+  }, []);
+
   const registerMapTap = useCallback(() => {
     const result = recordRapidTap(rapidTapTimesRef.current, performance.now());
     rapidTapTimesRef.current = result.timestamps;
 
-    if (result.triggered) {
-      unlockSecret(
-        'breathless',
-        '“Easy. Let me catch my breath.” Secret unlocked: Breathless Pathfinder.',
-      );
+    if (!result.triggered) {
+      return;
     }
-  }, [unlockSecret]);
+
+    if (unlockedSecretsRef.current.has('breathless')) {
+      const alreadyLightweight = unlockedSecretsRef.current.has('light-armor');
+      unlockSecret(
+        'light-armor',
+        '“Okay. I have to change my armor to something lightweight so I can keep up with this.” Secret unlocked: Lightweight Armor.',
+      );
+
+      if (!alreadyLightweight) {
+        startArmorTransform();
+      }
+      return;
+    }
+
+    unlockSecret(
+      'breathless',
+      '“Easy. Let me catch my breath.” Secret unlocked: Breathless Pathfinder.',
+    );
+  }, [startArmorTransform, unlockSecret]);
 
   const rejectDestination = useCallback((point: GridPoint) => {
     if (rejectTimerRef.current !== null) {
@@ -256,7 +298,8 @@ export function RealmGame({ onExit }: RealmGameProps) {
       routeGuardRef.current.cancel();
       if (rejectTimerRef.current !== null) window.clearTimeout(rejectTimerRef.current);
       if (exitTimerRef.current !== null) window.clearTimeout(exitTimerRef.current);
-      if (achievementTimerRef.current !== null) window.clearTimeout(achievementTimerRef.current);
+if (achievementTimerRef.current !== null) window.clearTimeout(achievementTimerRef.current);
+      if (armorTimerRef.current !== null) window.clearTimeout(armorTimerRef.current);
     };
   }, []);
 
@@ -482,10 +525,10 @@ export function RealmGame({ onExit }: RealmGameProps) {
               aria-label="Sir Piyush"
             >
               <div
-                className="realm-player-sprite"
+                className={`realm-player-sprite${transforming ? ' transforming' : ''}`}
                 style={{
                   backgroundImage: `url(${knightAsset})`,
-                  backgroundPosition: `${-walkFrame * TILE_SIZE}px ${-3 * TILE_SIZE}px`,
+                  backgroundPosition: `${-walkFrame * TILE_SIZE}px ${-playerRow * TILE_SIZE}px`,
                   transform: facingRight ? 'scaleX(-1)' : undefined,
                 }}
               />
@@ -674,6 +717,7 @@ function DiscoveryJournal({
         <strong>hidden records</strong>
         <span>{unlockedSecrets.has('off-duty') ? '◆ Off-Duty Loadout' : '◇ ???'}</span>
         <span>{unlockedSecrets.has('breathless') ? '◆ Breathless Pathfinder' : '◇ ???'}</span>
+        <span>{unlockedSecrets.has('light-armor') ? '◆ Lightweight Armor' : '◇ ???'}</span>
         <span>{unlockedSecrets.has('cartographer') ? '◆ Buildlands Cartographer' : '◇ ???'}</span>
       </div>
     </aside>
