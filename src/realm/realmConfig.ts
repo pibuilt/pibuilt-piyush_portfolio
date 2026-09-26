@@ -219,8 +219,8 @@ export const realmLandmarks: RealmLandmark[] = [
     asset: realmAsset('structures/structure-12.png'),
     effect: 'shrine',
     details: [
-      'A concise record of applied AI, backend systems, infrastructure automation, research, and projects.',
-      'The download begins only when you choose the action below. No mimic chests here.',
+      'A condensed record of applied AI, backend systems, infrastructure automation, research, and projects.',
+      'Download starts only when you choose the action below. No mimic chests, and no phone number. The full résumé is one LinkedIn message away.',
     ],
     actions: [
       {
@@ -228,6 +228,7 @@ export const realmLandmarks: RealmLandmark[] = [
         href: `${base}Piyush_Bhuyan_Resume.pdf`,
         download: 'Piyush_Bhuyan_Resume.pdf',
       },
+      { label: 'LinkedIn ↗', href: 'https://linkedin.com/in/piyush-bhuyan' },
     ],
   },
   {

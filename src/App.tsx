@@ -509,11 +509,15 @@ function App() {
             <a href="https://github.com/pibuilt" target="_blank" rel="noreferrer">
               github
             </a>
-            <a href="https://linkedin.com/in/piyush-bhuyan-216445230" target="_blank" rel="noreferrer">
+            <a href="https://linkedin.com/in/piyush-bhuyan" target="_blank" rel="noreferrer">
               linkedin
             </a>
-            <a href={resumeHref} download="Piyush_Bhuyan_Resume.pdf">
-              resume
+            <a
+              href={resumeHref}
+              download="Piyush_Bhuyan_Resume.pdf"
+              title="Condensed version, no phone number. DM me on LinkedIn for the full one."
+            >
+              resume (condensed)
             </a>
           </nav>
         </section>
@@ -913,8 +917,11 @@ if (commandId === 'publications') {
 
   return (
     <div className="terminal-stack">
-      <TerminalLine accent>Resume download started.</TerminalLine>
+      <TerminalLine accent>Condensed resume download started.</TerminalLine>
       <TerminalLine variant="meta">Saved as Piyush_Bhuyan_Resume.pdf</TerminalLine>
+      <TerminalLine variant="body">
+        No phone number in this one. DM me on LinkedIn if you want the full version.
+      </TerminalLine>
     </div>
   );
 }

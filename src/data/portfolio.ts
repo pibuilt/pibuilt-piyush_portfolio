@@ -173,8 +173,8 @@ export const commands: CommandDefinition[] = [
     id: "resume",
     label: "/resume",
     aliases: ["download resume", "download-resume", "cv"],
-    description: "Download my resume directly from the terminal.",
-    sample: "Starts a PDF download in the browser",
+    description: "Download the condensed resume. No phone number, no spam.",
+    sample: "Full version is one LinkedIn DM away",
   },
 ];
 
