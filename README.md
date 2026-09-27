@@ -139,3 +139,13 @@ Once workflow completes, the site is published automatically.
 - Fully static app (no backend/API required)
 - Deploy artifacts are generated in `dist/`
 - Resume file is served from `public/Piyush_Bhuyan_Resume.pdf`
+
+## Game Asset Credits
+
+The Buildlands (enter `/game` in the terminal) is built entirely from free, community-made art. None of these assets are original work. All three packs are released under CC0, so no permission was required — attribution below is given as a thank-you.
+
+- **Medieval world, buildings, scenery, and units** — [Kenney Vleugels](https://kenney.nl/), [RTS Pack: Medieval](https://kenney.nl/assets/medieval-rts) · CC0
+- **Laboratory machines, drones, and technology props** — [Murphy's Dad](https://murphysdad.itch.io/), [Robot Lab](https://murphysdad.itch.io/robot-lab-asset-pack) · CC0
+- **Playable knight sprite** — [zwonky](https://opengameart.org/users/zwonky), [Knights](https://opengameart.org/content/knights) · CC0
+
+Upstream license files are shipped alongside the assets in `public/realm-assets/` (`KENNEY-LICENSE.txt`, `ROBOT-LAB-README.md`, `KNIGHTS-CREDIT.md`). The same credits also appear in-game via the **Art Credits** landmark, plus a persistent footer line on the game screen.
