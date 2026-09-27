@@ -37,10 +37,29 @@ This is a command-driven portfolio experience inspired by modern AI/CLI tooling 
 ```text
 Portfolio/
 ├── public/
-│   └── Piyush_Bhuyan_Resume.pdf
+│   ├── Piyush_Bhuyan_Resume.pdf
+│   └── realm-assets/
+│       ├── KENNEY-LICENSE.txt
+│       ├── KNIGHTS-CREDIT.md
+│       ├── ROBOT-LAB-README.md
+│       ├── knight.png
+│       ├── environment/
+│       ├── lab/
+│       ├── structures/
+│       ├── tiles/
+│       └── units/
 ├── src/
 │   ├── data/
 │   │   └── portfolio.ts
+│   ├── realm/
+│   │   ├── RealmGame.tsx
+│   │   ├── realm.css
+│   │   ├── realmConfig.ts
+│   │   ├── realmJournal.ts
+│   │   ├── pathfinding.ts
+│   │   ├── rapidTap.ts
+│   │   ├── routeGuard.ts
+│   │   └── *.test.ts
 │   ├── App.tsx
 │   ├── main.tsx
 │   ├── styles.css
@@ -50,6 +69,7 @@ Portfolio/
 │       └── deploy.yml
 ├── index.html
 ├── package.json
+├── tsconfig.json
 ├── vite.config.ts
 └── README.md
 ```
