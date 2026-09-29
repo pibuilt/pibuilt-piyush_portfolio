@@ -144,8 +144,8 @@ export const realmLandmarks: RealmLandmark[] = [
     asset: realmAsset('structures/structure-02.png'),
     details: [
       'Microsoft Certified: Machine Learning Operations Engineer Associate.',
-      'AWS Certified Cloud Practitioner and Certified SAFe 6 Practitioner.',
-      'SAFe 6 agile training, which is where the standup ritual came from.',
+      'AWS Certified Cloud Practitioner.',
+      'Scaled Agile: Certified SAFe 6 Practitioner. The standups outlived the sprint, mostly.',
     ],
   },
   {
