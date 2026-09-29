@@ -143,8 +143,8 @@ export const realmLandmarks: RealmLandmark[] = [
     position: { col: 17, row: 7 },
     asset: realmAsset('structures/structure-02.png'),
     details: [
+      'Microsoft Certified: Machine Learning Operations Engineer Associate.',
       'AWS Certified Cloud Practitioner and Certified SAFe 6 Practitioner.',
-      'Stanford Machine Learning Specialization via Coursera.',
       'NPTEL: The Joy of Computing using Python. The joy survived production, mostly.',
     ],
   },

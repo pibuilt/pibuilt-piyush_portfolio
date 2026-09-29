@@ -44,7 +44,7 @@ export type ProjectEntry = {
 export type CertificationEntry = {
   name: string;
   issuer: string;
-  year: string;
+  year?: string;
 };
 
 export type ConnectEntry = {
@@ -144,7 +144,7 @@ export const commands: CommandDefinition[] = [
     label: "/certifications",
     aliases: ["certs"],
     description: "Formal certifications and external learning milestones.",
-    sample: "AWS Cloud Practitioner, SAFe Practitioner, NPTEL, Stanford ML",
+    sample: "Microsoft MLOps Engineer, AWS Cloud Practitioner, SAFe Practitioner, NPTEL",
   },
   {
     id: "education",
@@ -315,6 +315,11 @@ export const skillGroups = [
 
 export const certifications: CertificationEntry[] = [
   {
+    name: "Microsoft Certified: Machine Learning Operations Engineer Associate",
+    issuer: "Microsoft",
+    year: "2026",
+  },
+  {
     name: "AWS Certified Cloud Practitioner (CLF-C02)",
     issuer: "AWS",
     year: "2026",
@@ -325,14 +330,8 @@ export const certifications: CertificationEntry[] = [
     year: "2026",
   },
   {
-    name: "Machine Learning Specialization",
-    issuer: "Stanford University via Coursera",
-    year: "2026",
-  },
-  {
     name: "The Joy of Computing using Python",
     issuer: "NPTEL",
-    year: "2022",
   },
 ];
 

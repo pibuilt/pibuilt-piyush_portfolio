@@ -808,7 +808,9 @@ function CommandOutput({ commandId }: { commandId: CommandTarget }) {
           <div key={certification.name} className="terminal-section compact">
             <TerminalLine variant="heading">{certification.name}</TerminalLine>
             <TerminalLine variant="meta">
-              {certification.issuer} | {certification.year}
+              {certification.year
+                ? `${certification.issuer} | ${certification.year}`
+                : certification.issuer}
             </TerminalLine>
           </div>
         ))}
