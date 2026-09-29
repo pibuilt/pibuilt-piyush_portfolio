@@ -317,17 +317,14 @@ export const certifications: CertificationEntry[] = [
   {
     name: "Microsoft Certified: Machine Learning Operations Engineer Associate",
     issuer: "Microsoft",
-    year: "2026",
   },
   {
     name: "AWS Certified Cloud Practitioner (CLF-C02)",
     issuer: "AWS",
-    year: "2026",
   },
   {
     name: "Certified SAFe 6 Practitioner",
     issuer: "Scaled Agile",
-    year: "2026",
   },
   {
     name: "The Joy of Computing using Python",

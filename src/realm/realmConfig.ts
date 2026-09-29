@@ -145,7 +145,7 @@ export const realmLandmarks: RealmLandmark[] = [
     details: [
       'Microsoft Certified: Machine Learning Operations Engineer Associate.',
       'AWS Certified Cloud Practitioner and Certified SAFe 6 Practitioner.',
-      'NPTEL: The Joy of Computing using Python. The joy survived production, mostly.',
+      'SAFe 6 agile training, which is where the standup ritual came from.',
     ],
   },
   {
