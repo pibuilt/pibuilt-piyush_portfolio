@@ -1,27 +1,29 @@
 # Piyush Bhuyan Portfolio.
 
-Terminal-first portfolio built with React, TypeScript, and Vite.
+Portfolio built with React, TypeScript, and Vite, with two views: a classic, recruiter-friendly layout and a retro-futuristic CLI terminal.
 
 Live site: [https://pibuilt.github.io/pibuilt-piyush_portfolio/](https://pibuilt.github.io/pibuilt-piyush_portfolio/)
 
 ## Overview
 
-This is a command-driven portfolio experience inspired by modern AI/CLI tooling and styled with a retro-futuristic terminal aesthetic.
+The default experience is **Classic Mode** — a clean, multi-page layout (hash-routed) aimed at anyone who wants to skim the resume fast. A **CLI Mode** toggle switches to a command-driven terminal experience inspired by modern AI/CLI tooling, and both views read from the same content source.
 
-- Single prompt interaction model
-- Slash-command navigation
-- Claude-like response flow with lightweight processing states
-- Subtle boot/loader animation before entering the terminal
+- Classic Mode is the default; the view choice persists per browser
+- Multi-page Classic navigation: Home, Experience & Education, Projects, Resume, Beyond Engineering, Contact
+- CLI Mode: single prompt interaction model with slash-command navigation and a Claude-like response flow
+- Subtle boot/loader animation when entering the terminal (skipped in Classic)
 - Static deployment with GitHub Pages + GitHub Actions CI/CD
 
 ## Features
 
-- Terminal-style UI with autocomplete suggestions
-- Command cheatsheet panel for quick navigation
-- Smooth boot sequence and transition into the main page
-- Session guard so boot animation does not replay after first load in the same tab session
-- Resume download via top nav and `/resume` command
-- Typed content model separated from UI logic
+- Two views sharing one typed content model: Classic Mode and CLI Mode
+- Instant, persistent view toggle (survives reloads via localStorage)
+- Classic Mode: hash-routed pages, tabbed skills panel, timeline experience, resume download
+- CLI Mode: terminal UI with autocomplete suggestions and a command cheatsheet panel
+- Smooth boot sequence and transition into the terminal
+- Session guard so the boot animation does not replay after first load in the same tab session
+- Resume download available from both views
+- Hidden **Buildlands** game reachable from CLI Mode (`/game`)
 
 ## Tech Stack
 
@@ -38,6 +40,10 @@ This is a command-driven portfolio experience inspired by modern AI/CLI tooling 
 Portfolio/
 ├── public/
 │   ├── Piyush_Bhuyan_Resume.pdf
+│   ├── beyondengg/
+│   │   ├── comic.jpeg
+│   │   ├── lego.jpeg
+│   │   └── mun.jpeg
 │   └── realm-assets/
 │       ├── KENNEY-LICENSE.txt
 │       ├── KNIGHTS-CREDIT.md
@@ -49,6 +55,9 @@ Portfolio/
 │       ├── tiles/
 │       └── units/
 ├── src/
+│   ├── classic/
+│   │   ├── ClassicPortfolio.tsx
+│   │   └── classic.css
 │   ├── data/
 │   │   └── portfolio.ts
 │   ├── realm/
@@ -61,6 +70,7 @@ Portfolio/
 │   │   ├── routeGuard.ts
 │   │   └── *.test.ts
 │   ├── App.tsx
+│   ├── ViewModeToggle.tsx
 │   ├── main.tsx
 │   ├── styles.css
 │   └── vite-env.d.ts
@@ -74,7 +84,24 @@ Portfolio/
 └── README.md
 ```
 
-## Commands
+## Views
+
+### Classic Mode (default)
+
+A conventional, recruiter-friendly layout suited to skimming. Pages are hash-routed:
+
+- `#/home`
+- `#/experience`
+- `#/projects`
+- `#/resume`
+- `#/beyond`
+- `#/contact`
+
+### CLI Mode
+
+A command-driven terminal experience. Toggle to it from either view via the header switch; the choice is remembered in `localStorage`.
+
+## Commands (CLI Mode)
 
 Supported commands:
 
@@ -90,6 +117,8 @@ Supported commands:
 - `/resume`
 
 Aliases are supported and defined in `src/data/portfolio.ts`.
+
+The Buildlands game is reached with `/game`. A hidden secret command also exists — exploring is part of the fun.
 
 ## Local Development
 
@@ -121,7 +150,7 @@ This repo is configured to deploy automatically on every push to `main`.
 `vite.config.ts` is set to:
 
 ```ts
-base: "/piyush_portfolio/";
+base: "/pibuilt-piyush_portfolio/";
 ```
 
 This is required because the site is hosted under a repository path.
@@ -150,15 +179,18 @@ Once workflow completes, the site is published automatically.
 
 ## Content and Styling Updates
 
-- Update portfolio data in `src/data/portfolio.ts`
-- Update visual theme and effects in `src/styles.css`
-- Update interaction/command behavior in `src/App.tsx`
+- Update portfolio data (shared by both views) in `src/data/portfolio.ts`
+- Update Classic Mode layout/styling in `src/classic/ClassicPortfolio.tsx` and `src/classic/classic.css`
+- Update CLI terminal theme and effects in `src/styles.css`
+- Update CLI interaction/command behavior in `src/App.tsx`
+- Update the off-the-clock photos in `public/beyondengg/`
 
 ## Notes
 
 - Fully static app (no backend/API required)
 - Deploy artifacts are generated in `dist/`
 - Resume file is served from `public/Piyush_Bhuyan_Resume.pdf`
+- Both views render from the same content source, so edits stay in sync
 
 ## Game Asset Credits
 
