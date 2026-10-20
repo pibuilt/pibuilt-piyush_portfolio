@@ -2,6 +2,8 @@ import { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react';
 import { RealmGame } from './realm/RealmGame';
 import { ClassicPortfolio } from './classic/ClassicPortfolio';
+import { ViewModeToggle } from './ViewModeToggle';
+import type { ViewMode } from './ViewModeToggle';
 import {
   CommandId,
   commands,
@@ -20,7 +22,6 @@ import {
 type HiddenCommandId = 'piyush-bhuyan' | 'game';
 type CommandTarget = CommandId | HiddenCommandId;
 type PortfolioMode = 'terminal' | 'realm';
-type ViewMode = 'cli' | 'classic';
 type TurnStatus = 'processing' | 'done' | 'error';
 type TurnStage = 'scaffolding' | 'thinking';
 
@@ -52,14 +53,14 @@ const viewModeStorageKey = 'portfolio_view_mode_v1';
 
 function readStoredViewMode(): ViewMode {
   if (typeof window === 'undefined') {
-    return 'cli';
+    return 'classic';
   }
 
   try {
-    return window.localStorage.getItem(viewModeStorageKey) === 'classic' ? 'classic' : 'cli';
+    return window.localStorage.getItem(viewModeStorageKey) === 'cli' ? 'cli' : 'classic';
   } catch {
-    // localStorage can be unavailable (private mode); default to the CLI experience.
-    return 'cli';
+    // localStorage can be unavailable (private mode); default to Classic Mode.
+    return 'classic';
   }
 }
 
@@ -491,19 +492,12 @@ function App() {
   }
 
   if (viewMode === 'classic') {
-    return (
-      <>
-        <ViewModeToggle viewMode="classic" onToggle={handleViewModeToggle} />
-        <ClassicPortfolio resumeHref={resumeHref} />
-      </>
-    );
+    return <ClassicPortfolio resumeHref={resumeHref} onToggleView={handleViewModeToggle} />;
   }
 
   return (
     <div className={`app-shell ${bootPhase !== 'done' ? 'preboot' : 'ready'}`}>
       {bootPhase !== 'done' ? <BootSequence stage={bootStage} exiting={bootPhase === 'exiting'} /> : null}
-
-      <ViewModeToggle viewMode="cli" onToggle={handleViewModeToggle} />
 
       <button
         type="button"
@@ -562,28 +556,28 @@ function App() {
           </div>
 
           <nav className="meta-row" aria-label="Links">
-            <a href="mailto:works.piyushb@gmail.com">email</a>
-            <a href="https://github.com/pibuilt" target="_blank" rel="noreferrer">
-              github
-            </a>
-            <a href="https://linkedin.com/in/piyush-bhuyan" target="_blank" rel="noreferrer">
-              linkedin
-            </a>
-            <a
-              href={resumeHref}
-              download="Piyush_Bhuyan_Resume.pdf"
-              title="Condensed version, no phone number. DM me on LinkedIn for the full one."
-            >
-              resume (condensed)
-            </a>
+            <div className="meta-links">
+              <a href="mailto:works.piyushb@gmail.com">email</a>
+              <a href="https://github.com/pibuilt" target="_blank" rel="noreferrer">
+                github
+              </a>
+              <a href="https://linkedin.com/in/piyush-bhuyan" target="_blank" rel="noreferrer">
+                linkedin
+              </a>
+              <a
+                href={resumeHref}
+                download="Piyush_Bhuyan_Resume.pdf"
+                title="Condensed version, no phone number. DM me on LinkedIn for the full one."
+              >
+                resume (condensed)
+              </a>
+            </div>
+            <ViewModeToggle viewMode="cli" onToggle={handleViewModeToggle} />
           </nav>
         </section>
 
         <div className="hint-line">
           <span>Type a command and press Enter. Start with /help.</span>
-          <span className="hint-line-secondary">
-            Not into the terminal? Switch to Classic View using the button in the top-right corner.
-          </span>
         </div>
 
         <section className="transcript">
@@ -606,24 +600,14 @@ function App() {
           ) : null}
         </section>
       </main>
+
+      <aside className="classic-note" aria-label="Classic view hint">
+        <span className="classic-note-pin" aria-hidden="true" />
+        <span>
+          Switch to <strong>Classic View</strong> using the button above for a more streamlined experience.
+        </span>
+      </aside>
     </div>
-  );
-}
-
-function ViewModeToggle({ viewMode, onToggle }: { viewMode: ViewMode; onToggle: () => void }) {
-  const switchingToClassic = viewMode === 'cli';
-  const label = switchingToClassic ? 'Classic View' : 'CLI Mode';
-
-  return (
-    <button
-      type="button"
-      className={`view-mode-toggle ${switchingToClassic ? 'to-classic' : 'to-cli'}`}
-      onClick={onToggle}
-      aria-label={`Switch to ${label}`}
-      title={`Switch to ${label}`}
-    >
-      {label}
-    </button>
   );
 }
 
