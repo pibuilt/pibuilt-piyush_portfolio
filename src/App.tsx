@@ -569,7 +569,7 @@ function App() {
                 download="Piyush_Bhuyan_Resume.pdf"
                 title="Condensed version, no phone number. DM me on LinkedIn for the full one."
               >
-                resume (condensed)
+                resume<span className="meta-link-qualifier"> (condensed)</span>
               </a>
             </div>
             <ViewModeToggle viewMode="cli" onToggle={handleViewModeToggle} />

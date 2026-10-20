@@ -1185,6 +1185,32 @@ body.secret-mode .prompt-block::before {
   }
 }
 
+@media (max-width: 540px) {
+  /* Keep the CLI header on as few lines as possible on phones: shrink the
+     link row, drop the resume qualifier, and close the gaps so email /
+     github / linkedin / resume / toggle stay on one or two tidy lines. */
+  .meta-row {
+    font-size: 0.72rem;
+    gap: 0.55rem 0.7rem;
+  }
+
+  .meta-links {
+    gap: 0.55rem 0.7rem;
+  }
+
+  .meta-link-qualifier {
+    display: none;
+  }
+
+  .classic-note {
+    max-width: 100%;
+    margin: 1rem 0 0 0.2rem;
+    padding-left: 0.7rem;
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
