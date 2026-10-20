@@ -82,7 +82,7 @@ export const metrics: Metric[] = [
     label: "Incident Response",
     value: "99%",
     detail:
-      "faster P2 resolution — mean time to recovery cut from 53 minutes to under 90 seconds",
+      "faster P2 resolution: mean time to recovery cut from 53 minutes to under 90 seconds",
   },
   {
     label: "Cost",

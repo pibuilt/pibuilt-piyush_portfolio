@@ -6,7 +6,7 @@ Live site: [https://pibuilt.github.io/pibuilt-piyush_portfolio/](https://pibuilt
 
 ## Overview
 
-The default experience is **Classic Mode** — a clean, multi-page layout (hash-routed) aimed at anyone who wants to skim the resume fast. A **CLI Mode** toggle switches to a command-driven terminal experience inspired by modern AI/CLI tooling, and both views read from the same content source.
+The default experience is **Classic Mode**, a clean, multi-page layout (hash-routed) aimed at anyone who wants to skim the resume fast. A **CLI Mode** toggle switches to a command-driven terminal experience inspired by modern AI/CLI tooling, and both views read from the same content source.
 
 - Classic Mode is the default; the view choice persists per browser
 - Multi-page Classic navigation: Home, Experience & Education, Projects, Resume, Beyond Engineering, Contact
@@ -118,7 +118,7 @@ Supported commands:
 
 Aliases are supported and defined in `src/data/portfolio.ts`.
 
-The Buildlands game is reached with `/game`. A hidden secret command also exists — exploring is part of the fun.
+The Buildlands game is reached with `/game`. A hidden secret command also exists, and exploring is part of the fun.
 
 ## Local Development
 
@@ -194,10 +194,10 @@ Once workflow completes, the site is published automatically.
 
 ## Game Asset Credits
 
-The Buildlands (enter `/game` in the terminal) is built entirely from free, community-made art. None of these assets are original work. All three packs are released under CC0, so no permission was required — attribution below is given as a thank-you.
+The Buildlands (enter `/game` in the terminal) is built entirely from free, community-made art. None of these assets are original work. All three packs are released under CC0, so no permission was required. Attribution below is given as a thank-you.
 
-- **Medieval world, buildings, scenery, and units** — [Kenney Vleugels](https://kenney.nl/), [RTS Pack: Medieval](https://kenney.nl/assets/medieval-rts) · CC0
-- **Laboratory machines, drones, and technology props** — [Murphy's Dad](https://murphysdad.itch.io/), [Robot Lab](https://murphysdad.itch.io/robot-lab-asset-pack) · CC0
-- **Playable knight sprite** — [zwonky](https://opengameart.org/users/zwonky), [Knights](https://opengameart.org/content/knights) · CC0
+- **Medieval world, buildings, scenery, and units**: [Kenney Vleugels](https://kenney.nl/), [RTS Pack: Medieval](https://kenney.nl/assets/medieval-rts) · CC0
+- **Laboratory machines, drones, and technology props**: [Murphy's Dad](https://murphysdad.itch.io/), [Robot Lab](https://murphysdad.itch.io/robot-lab-asset-pack) · CC0
+- **Playable knight sprite**: [zwonky](https://opengameart.org/users/zwonky), [Knights](https://opengameart.org/content/knights) · CC0
 
 Upstream license files are shipped alongside the assets in `public/realm-assets/` (`KENNEY-LICENSE.txt`, `ROBOT-LAB-README.md`, `KNIGHTS-CREDIT.md`). The same credits also appear in-game via the **Art Credits** landmark, plus a persistent footer line on the game screen.

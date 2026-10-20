@@ -100,7 +100,7 @@ export function ClassicPortfolio({ resumeHref, onToggleView }: ClassicPortfolioP
               <ViewModeToggle viewMode="classic" onToggle={onToggleView} variant="button" />
             </div>
             <p className="classic-note classic-note-inline">
-              Switch to <strong>CLI Mode</strong> above to explore the interactive terminal instead — if you like
+              Switch to <strong>CLI Mode</strong> above to explore the interactive terminal instead, if you like
               typing over scrolling.
             </p>
           </div>
@@ -194,7 +194,7 @@ function HomePage({ onNavigate, resumeHref }: { onNavigate: (page: PageId) => vo
 /**
  * Tabbed skills browser. Categories read as a vertical index on the left with a
  * count badge; the selected category's stack fills the panel on the right.
- * All content comes from `skillGroups` — nothing is duplicated or invented.
+ * All content comes from `skillGroups` - nothing is duplicated or invented.
  */
 function SkillsPanel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -377,7 +377,7 @@ function ProjectsPage() {
 function ResumePage({ resumeHref }: { resumeHref: string }) {
   return (
     <section>
-      <PageIntro title="Resume" subtitle="Condensed version — no phone number, no spam." />
+      <PageIntro title="Resume" subtitle="Condensed version, no phone number, no spam." />
       <p>
         Grab the condensed PDF below. The full version is one LinkedIn DM away.
       </p>
@@ -397,7 +397,7 @@ function BeyondPage({ onToggleView }: { onToggleView: () => void }) {
       title: 'Lego',
       image: `${base}beyondengg/lego.jpeg`,
       caption:
-        'I build things out of bricks the same way I build software — patiently, in layers, and slightly over-engineered.',
+        'I build things out of bricks the same way I build software: patiently, in layers, and slightly over-engineered.',
     },
     {
       title: 'Model United Nations',
@@ -409,7 +409,7 @@ function BeyondPage({ onToggleView }: { onToggleView: () => void }) {
       title: 'Comics',
       image: `${base}beyondengg/comic.jpeg`,
       caption:
-        'A long-running DC habit — the stories, the art, and the very specific hunt for the hard-to-find issues.',
+        'A long-running DC habit: the stories, the art, and the very specific hunt for the hard-to-find issues.',
     },
   ];
 
@@ -423,7 +423,7 @@ function BeyondPage({ onToggleView }: { onToggleView: () => void }) {
           {hobbies.map((hobby) => (
             <figure className="classic-hobby" key={hobby.title}>
               <div className="classic-hobby-media">
-                <img src={hobby.image} alt={`${hobby.title} — Piyush Bhuyan`} loading="lazy" />
+                <img src={hobby.image} alt={hobby.title} loading="lazy" />
               </div>
               <figcaption>
                 <h4>{hobby.title}</h4>
@@ -438,7 +438,7 @@ function BeyondPage({ onToggleView }: { onToggleView: () => void }) {
         <h3>Honestly, the CLI is the better tour</h3>
         <p>
           The best way to discover me is through the CLI terminal. Switch to it, run the commands,
-          and poke at things that are not listed — there is a game hidden in there with easter
+          and poke at things that are not listed. There is a game hidden in there with easter
           eggs worth finding.
         </p>
         <div className="classic-cta-row">
@@ -474,7 +474,7 @@ function ContactPage({ resumeHref }: { resumeHref: string }) {
         <a href={resumeHref} download="Piyush_Bhuyan_Resume.pdf">
           Download the condensed resume
         </a>
-        . No phone number in this one — DM me on LinkedIn for the full version.
+        . No phone number in this one; DM me on LinkedIn for the full version.
       </p>
     </section>
   );

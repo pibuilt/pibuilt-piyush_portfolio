@@ -474,7 +474,7 @@ button {
   letter-spacing: 0.01em;
 }
 
-/* Sits below the CLI card as a quiet aside — same typography as the hint line,
+/* Sits below the CLI card as a quiet aside - same typography as the hint line,
    with a small amber marker so it reads as a pinned note without the sticker look. */
 .classic-note {
   position: relative;

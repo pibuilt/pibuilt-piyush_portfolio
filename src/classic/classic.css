@@ -26,7 +26,7 @@ body.classic-mode {
   outline-offset: 3px;
 }
 
-/* Variant: `link` — matches the email / github / linkedin links in the CLI.
+/* Variant: `link` - matches the email / github / linkedin links in the CLI.
    Plain terminal text, soft colour, cyan underline sweeping in on hover. */
 .view-mode-toggle.link {
   position: relative;
@@ -65,7 +65,7 @@ body.classic-mode {
   transform: translateY(1px);
 }
 
-/* Variant: `button` — the reference site's inverting black-outline button. */
+/* Variant: `button` - the reference site's inverting black-outline button. */
 .view-mode-toggle.button {
   padding: 8px 16px;
   border: 2px solid #000;
@@ -769,7 +769,7 @@ body.classic-mode {
   line-height: 1.6;
 }
 
-/* Full section break inside a page — matches the page-level heading rule so
+/* Full section break inside a page - matches the page-level heading rule so
    subsections read with the same weight as the page title. */
 .classic-root .classic-section-break {
   margin-top: 72px;
