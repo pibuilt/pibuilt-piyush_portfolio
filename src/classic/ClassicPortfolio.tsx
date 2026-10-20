@@ -22,7 +22,7 @@ type PageId = 'home' | 'experience' | 'projects' | 'resume' | 'beyond' | 'contac
 
 const pages: Array<{ id: PageId; label: string }> = [
   { id: 'home', label: 'Home' },
-  { id: 'experience', label: 'Experience' },
+  { id: 'experience', label: 'Experience & Education' },
   { id: 'projects', label: 'Projects' },
   { id: 'resume', label: 'Resume' },
   { id: 'beyond', label: 'Beyond Engineering' },
@@ -111,7 +111,7 @@ export function ClassicPortfolio({ resumeHref, onToggleView }: ClassicPortfolioP
           {page === 'experience' ? <ExperiencePage /> : null}
           {page === 'projects' ? <ProjectsPage /> : null}
           {page === 'resume' ? <ResumePage resumeHref={resumeHref} /> : null}
-          {page === 'beyond' ? <BeyondPage /> : null}
+          {page === 'beyond' ? <BeyondPage onToggleView={onToggleView} /> : null}
           {page === 'contact' ? <ContactPage resumeHref={resumeHref} /> : null}
         </main>
 
@@ -147,8 +147,8 @@ function PageIntro({ title, subtitle }: { title: string; subtitle: string }) {
 function HomePage({ onNavigate, resumeHref }: { onNavigate: (page: PageId) => void; resumeHref: string }) {
   return (
     <section className="classic-home">
-      <p className="classic-hero-role">{profile.role}</p>
-      <p className="classic-hero-intro">{profile.intro}</p>
+      <h2 className="classic-hero-role">{profile.role}</h2>
+      <p className="classic-hero-tagline">{profile.tagline}</p>
       <p className="classic-hero-meta">
         {profile.status} · {profile.location}
       </p>
@@ -191,10 +191,70 @@ function HomePage({ onNavigate, resumeHref }: { onNavigate: (page: PageId) => vo
   );
 }
 
+/**
+ * Tabbed skills browser. Categories read as a vertical index on the left with a
+ * count badge; the selected category's stack fills the panel on the right.
+ * All content comes from `skillGroups` — nothing is duplicated or invented.
+ */
+function SkillsPanel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeGroup = skillGroups[activeIndex];
+
+  if (!activeGroup) {
+    return null;
+  }
+
+  return (
+    <div className="classic-skills">
+      <div className="classic-skill-tabs" role="tablist" aria-label="Skill categories">
+        {skillGroups.map((group, index) => (
+          <button
+            key={group.name}
+            type="button"
+            role="tab"
+            id={`skill-tab-${index}`}
+            aria-selected={index === activeIndex}
+            aria-controls="skill-panel"
+            className={`classic-skill-tab ${index === activeIndex ? 'active' : ''}`}
+            onClick={() => setActiveIndex(index)}
+          >
+            <span className="classic-skill-tab-name">{group.name}</span>
+            <span className="classic-skill-tab-count">{group.items.length}</span>
+          </button>
+        ))}
+      </div>
+
+      <div
+        className="classic-skill-panel"
+        id="skill-panel"
+        role="tabpanel"
+        aria-labelledby={`skill-tab-${activeIndex}`}
+      >
+        <div className="classic-skill-panel-head">
+          <span className="classic-skill-panel-index" aria-hidden="true">
+            {String(activeIndex + 1).padStart(2, '0')} / {String(skillGroups.length).padStart(2, '0')}
+          </span>
+          <h4>{activeGroup.name}</h4>
+        </div>
+        <div className="classic-tech-stack">
+          {activeGroup.items.map((item) => (
+            <span className="classic-tech-chip" key={item}>
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ExperiencePage() {
   return (
     <section>
-      <PageIntro title="Experience" subtitle="Professional timeline and the impact behind it." />
+      <PageIntro
+        title="Experience &amp; Education"
+        subtitle="Professional timeline and academic background."
+      />
       <div className="classic-timeline">
         {experience.map((entry, index) => (
           <article
@@ -216,53 +276,43 @@ function ExperiencePage() {
             </div>
           </article>
         ))}
+
+        <article className="classic-timeline-item right">
+          <span className="classic-timeline-dot" aria-hidden="true" />
+          <div className="classic-timeline-content">
+            <div className="classic-timeline-date">{education.period}</div>
+            <h3 className="classic-timeline-title">{education.degree}</h3>
+            <div className="classic-timeline-company">
+              {education.institution} · {education.location}
+            </div>
+            <p className="classic-timeline-score">{education.score}</p>
+            <ul>
+              {education.highlights.map((highlight) => (
+                <li key={highlight}>{highlight}</li>
+              ))}
+            </ul>
+          </div>
+        </article>
       </div>
 
       <div className="classic-subsection">
-        <h3>Education</h3>
-        <h4>{education.degree}</h4>
-        <p className="classic-meta">
-          {education.institution} · {education.location} · {education.period}
-        </p>
-        <p className="classic-meta">{education.score}</p>
-        <ul>
-          {education.highlights.map((highlight) => (
-            <li key={highlight}>{highlight}</li>
-          ))}
-        </ul>
+        <h3>Skills &amp; Expertise</h3>
+        <SkillsPanel />
       </div>
 
       <div className="classic-subsection">
         <h3>Certifications</h3>
         <ul className="classic-cert-list">
           {certifications.map((certification) => (
-            <li key={certification.name}>
-              {certification.name}
-              <span className="classic-meta">
-                {' '}
-                — {certification.issuer}
-                {certification.year ? `, ${certification.year}` : ''}
-              </span>
+            <li className="classic-cert" key={certification.name}>
+              <span className="classic-cert-issuer">{certification.issuer}</span>
+              <span className="classic-cert-name">{certification.name}</span>
+              {certification.year ? (
+                <span className="classic-cert-year">{certification.year}</span>
+              ) : null}
             </li>
           ))}
         </ul>
-      </div>
-
-      <div className="classic-subsection">
-        <h3>Research</h3>
-        {publicationNote ? <p>{publicationNote}</p> : null}
-        {publications.map((publication) => (
-          <article className="classic-publication" key={publication.title}>
-            <h4>{publication.title}</h4>
-            <p className="classic-meta">
-              {publication.venue} · {publication.year}
-            </p>
-            <p>{publication.summary}</p>
-            <a href={publication.href} target="_blank" rel="noreferrer">
-              DOI link →
-            </a>
-          </article>
-        ))}
       </div>
     </section>
   );
@@ -272,6 +322,7 @@ function ProjectsPage() {
   return (
     <section>
       <PageIntro title="Selected Projects" subtitle="A couple of things I built because having free time was optional." />
+
       {projects.map((project) => (
         <article className="classic-project" key={project.name}>
           <div className="classic-project-head">
@@ -297,6 +348,28 @@ function ProjectsPage() {
           </ul>
         </article>
       ))}
+
+      <aside className="classic-callout">
+        And ofc this portfolio website.
+      </aside>
+
+      <section className="classic-section-break" aria-labelledby="classic-research-heading">
+        <h2 id="classic-research-heading">Research</h2>
+        <p className="classic-meta">Peer-reviewed work and the systems behind it.</p>
+        {publicationNote ? <p>{publicationNote}</p> : null}
+        {publications.map((publication) => (
+          <article className="classic-publication" key={publication.title}>
+            <h3 className="classic-publication-title">{publication.title}</h3>
+            <p className="classic-meta">
+              {publication.venue} · {publication.year}
+            </p>
+            <p>{publication.summary}</p>
+            <a href={publication.href} target="_blank" rel="noreferrer">
+              DOI link →
+            </a>
+          </article>
+        ))}
+      </section>
     </section>
   );
 }
@@ -313,48 +386,67 @@ function ResumePage({ resumeHref }: { resumeHref: string }) {
           Download Resume (PDF)
         </a>
       </p>
+    </section>
+  );
+}
+
+function BeyondPage({ onToggleView }: { onToggleView: () => void }) {
+  const base = import.meta.env.BASE_URL;
+  const hobbies = [
+    {
+      title: 'Lego',
+      image: `${base}beyondengg/lego.jpeg`,
+      caption:
+        'I build things out of bricks the same way I build software — patiently, in layers, and slightly over-engineered.',
+    },
+    {
+      title: 'Model United Nations',
+      image: `${base}beyondengg/mun.jpeg`,
+      caption:
+        'Debating, negotiating, and holding a room together under pressure. Turns out the skill transfers directly to engineering.',
+    },
+    {
+      title: 'Comics',
+      image: `${base}beyondengg/comic.jpeg`,
+      caption:
+        'A long-running DC habit — the stories, the art, and the very specific hunt for the hard-to-find issues.',
+    },
+  ];
+
+  return (
+    <section>
+      <PageIntro title="Beyond Engineering" subtitle="The human bits that shape how I work." />
 
       <div className="classic-subsection">
-        <h3>Skills &amp; Expertise</h3>
-        <div className="classic-skills">
-          {skillGroups.map((group) => (
-            <div className="classic-skill-group" key={group.name}>
-              <h4>{group.name}</h4>
-              <div className="classic-tech-stack">
-                {group.items.map((item) => (
-                  <span className="classic-tech-chip" key={item}>
-                    {item}
-                  </span>
-                ))}
+        <h3>Off the clock</h3>
+        <div className="classic-hobbies">
+          {hobbies.map((hobby) => (
+            <figure className="classic-hobby" key={hobby.title}>
+              <div className="classic-hobby-media">
+                <img src={hobby.image} alt={`${hobby.title} — Piyush Bhuyan`} loading="lazy" />
               </div>
-            </div>
+              <figcaption>
+                <h4>{hobby.title}</h4>
+                <p>{hobby.caption}</p>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>
 
       <div className="classic-subsection">
-        <h3>Education</h3>
-        <h4>{education.degree}</h4>
-        <p className="classic-meta">
-          {education.institution} · {education.location} · {education.period}
+        <h3>Honestly, the CLI is the better tour</h3>
+        <p>
+          The best way to discover me is through the CLI terminal. Switch to it, run the commands,
+          and poke at things that are not listed — there is a game hidden in there with easter
+          eggs worth finding.
         </p>
-        <p className="classic-meta">{education.score}</p>
+        <div className="classic-cta-row">
+          <button type="button" className="classic-button" onClick={onToggleView}>
+            Switch to the CLI
+          </button>
+        </div>
       </div>
-    </section>
-  );
-}
-
-function BeyondPage() {
-  return (
-    <section>
-      <PageIntro title="Beyond Engineering" subtitle="The human bits that shape how I work." />
-      <p>{profile.intro}</p>
-      <h3>What I focus on</h3>
-      <ul>
-        {profile.focus.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
     </section>
   );
 }

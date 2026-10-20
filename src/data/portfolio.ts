@@ -23,7 +23,6 @@ export type Metric = {
   value: string;
   detail: string;
 };
-
 export type ExperienceEntry = {
   company: string;
   role: string;
@@ -63,12 +62,14 @@ export type PublicationEntry = {
 
 export const profile = {
   name: "Piyush Bhuyan",
-  role: "Applied AI Engineer building agentic systems, backend services, and automation tooling",
+  role: "Applied AI Engineer",
+  tagline:
+    "I build autonomous systems that remove the work nobody should be doing by hand.",
   location: "Hyderabad, India",
   status:
     "Currently building orchestrators, AI harnesses, and agentic workflows at Keyloop",
   intro:
-    "Building AI systems. Backend engineering, infrastructure, and applied AI, making systems that do things instead of just confidently describing how they would do things.",
+    "Backend engineering, infrastructure, and applied AI, shipping systems that actually run in production instead of confidently describing how they would.",
   focus: [
     "Making AI systems that do not fall apart the moment someone looks at them funny",
     "Backend, infrastructure, and the kind of plumbing nobody talks about until something goes sideways",
@@ -78,21 +79,16 @@ export const profile = {
 
 export const metrics: Metric[] = [
   {
-    label: "Impact",
-    value: "10,000+ hrs",
-    detail: "engineering time saved annually through incident automation",
+    label: "Incident Response",
+    value: "99%",
+    detail:
+      "faster P2 resolution — mean time to recovery cut from 53 minutes to under 90 seconds",
   },
   {
-    label: "Automation",
-    value: "78%",
+    label: "Cost",
+    value: "80%",
     detail:
-      "manual intervention reduced through AI-driven triage and remediation pipelines",
-  },
-  {
-    label: "Scale",
-    value: "2,000+",
-    detail:
-      "servers covered across infrastructure rollout and operational visibility work",
+      "of events routed at $0 LLM cost by a deterministic rule engine, at $0.03 per event blended",
   },
 ];
 
