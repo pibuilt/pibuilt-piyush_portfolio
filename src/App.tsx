@@ -1,6 +1,7 @@
 import { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react';
 import { RealmGame } from './realm/RealmGame';
+import { ClassicPortfolio } from './classic/ClassicPortfolio';
 import {
   CommandId,
   commands,
@@ -19,6 +20,7 @@ import {
 type HiddenCommandId = 'piyush-bhuyan' | 'game';
 type CommandTarget = CommandId | HiddenCommandId;
 type PortfolioMode = 'terminal' | 'realm';
+type ViewMode = 'cli' | 'classic';
 type TurnStatus = 'processing' | 'done' | 'error';
 type TurnStage = 'scaffolding' | 'thinking';
 
@@ -46,9 +48,24 @@ const bootSessionKey = 'portfolio_boot_seen_v1';
 const defaultBannerPosition = { x: 24, y: 44 };
 const hiddenBannerCommand = '/piyush bhuyan';
 const hiddenBannerCommandNormalized = 'piyush bhuyan';
+const viewModeStorageKey = 'portfolio_view_mode_v1';
+
+function readStoredViewMode(): ViewMode {
+  if (typeof window === 'undefined') {
+    return 'cli';
+  }
+
+  try {
+    return window.localStorage.getItem(viewModeStorageKey) === 'classic' ? 'classic' : 'cli';
+  } catch {
+    // localStorage can be unavailable (private mode); default to the CLI experience.
+    return 'cli';
+  }
+}
 
 function App() {
   const [portfolioMode, setPortfolioMode] = useState<PortfolioMode>('terminal');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => readStoredViewMode());
   const [query, setQuery] = useState('');
   const [currentTurn, setCurrentTurn] = useState<Turn | null>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -213,6 +230,14 @@ function App() {
   }, [isSecretThemeActive]);
 
   useEffect(() => {
+    document.body.classList.toggle('classic-mode', viewMode === 'classic');
+
+    return () => {
+      document.body.classList.remove('classic-mode');
+    };
+  }, [viewMode]);
+
+  useEffect(() => {
     if (!isDraggingBanner) {
       return;
     }
@@ -321,6 +346,27 @@ function App() {
 
   const resetBannerPosition = () => {
     setBannerPosition(defaultBannerPosition);
+  };
+
+  const handleViewModeToggle = () => {
+    const nextView: ViewMode = viewMode === 'cli' ? 'classic' : 'cli';
+    setViewMode(nextView);
+
+    try {
+      window.localStorage.setItem(viewModeStorageKey, nextView);
+    } catch {
+      // Persistence is best-effort; the switch still applies for this session.
+    }
+
+    if (nextView === 'classic') {
+      // Leave the terminal in a tidy state for the return trip.
+      setShowCommandTab(false);
+      setIsDraggingBanner(false);
+      bannerDragRef.current = null;
+      return;
+    }
+
+    window.setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   const triggerResumeDownload = () => {
@@ -444,9 +490,20 @@ function App() {
     return <RealmGame onExit={() => setPortfolioMode('terminal')} />;
   }
 
+  if (viewMode === 'classic') {
+    return (
+      <>
+        <ViewModeToggle viewMode="classic" onToggle={handleViewModeToggle} />
+        <ClassicPortfolio resumeHref={resumeHref} />
+      </>
+    );
+  }
+
   return (
     <div className={`app-shell ${bootPhase !== 'done' ? 'preboot' : 'ready'}`}>
       {bootPhase !== 'done' ? <BootSequence stage={bootStage} exiting={bootPhase === 'exiting'} /> : null}
+
+      <ViewModeToggle viewMode="cli" onToggle={handleViewModeToggle} />
 
       <button
         type="button"
@@ -522,7 +579,12 @@ function App() {
           </nav>
         </section>
 
-        <div className="hint-line">Type a command and press Enter. Start with /help.</div>
+        <div className="hint-line">
+          <span>Type a command and press Enter. Start with /help.</span>
+          <span className="hint-line-secondary">
+            Not into the terminal? Switch to Classic View using the button in the top-right corner.
+          </span>
+        </div>
 
         <section className="transcript">
           {currentTurn ? <TurnBlock turn={currentTurn} /> : null}
@@ -545,6 +607,23 @@ function App() {
         </section>
       </main>
     </div>
+  );
+}
+
+function ViewModeToggle({ viewMode, onToggle }: { viewMode: ViewMode; onToggle: () => void }) {
+  const switchingToClassic = viewMode === 'cli';
+  const label = switchingToClassic ? 'Classic View' : 'CLI Mode';
+
+  return (
+    <button
+      type="button"
+      className={`view-mode-toggle ${switchingToClassic ? 'to-classic' : 'to-cli'}`}
+      onClick={onToggle}
+      aria-label={`Switch to ${label}`}
+      title={`Switch to ${label}`}
+    >
+      {label}
+    </button>
   );
 }
 

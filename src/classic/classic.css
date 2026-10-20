@@ -1,0 +1,631 @@
+/* ============================================================
+   Classic (recruiter-friendly) portfolio view.
+   Design language adapted from the reference portfolio:
+   white canvas, black hairline rules, mono type, 900px column.
+   Imported after styles.css so these rules win specificity ties.
+   ============================================================ */
+
+body.classic-mode {
+  background: #fff;
+  color: #000;
+  color-scheme: light;
+  font-family: 'Roboto Mono', 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ---------- Top-right view mode toggle (both modes) ---------- */
+
+.view-mode-toggle {
+  position: fixed;
+  top: 0.9rem;
+  right: 1.1rem;
+  z-index: 5;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(111, 212, 242, 0.12), rgba(111, 212, 242, 0.045)),
+    rgba(10, 15, 26, 0.95);
+  box-shadow: var(--shadow);
+  color: var(--text-soft);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 200ms ease,
+    transform 120ms ease;
+}
+
+.view-mode-toggle:hover {
+  color: var(--cyan);
+  border-color: rgba(111, 212, 242, 0.32);
+}
+
+.view-mode-toggle:active {
+  transform: translateY(1px);
+}
+
+.view-mode-toggle:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* Shown while in Classic Mode: returns the visitor to the CLI.
+   Styled in the reference site's black-and-white button language. */
+.view-mode-toggle.to-cli {
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+  color: #000;
+}
+
+.view-mode-toggle.to-cli:hover {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+
+.view-mode-toggle.to-cli:focus-visible {
+  outline-color: #000;
+}
+
+/* ---------- Canvas + typography ---------- */
+
+.classic-root {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  background: #fff;
+  color: #000;
+  font-family: 'Roboto Mono', 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.classic-canvas {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.classic-root h1 {
+  margin: 0 0 15px;
+  font-size: 2.2rem;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+
+.classic-root h2 {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.classic-root h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.classic-root h4 {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.classic-root p {
+  margin-bottom: 15px;
+}
+
+.classic-root ul {
+  margin: 0 0 15px;
+  padding-left: 1.4rem;
+  line-height: 1.8;
+}
+
+.classic-root li {
+  margin-bottom: 4px;
+}
+
+.classic-root a {
+  color: #000;
+  text-decoration: underline;
+}
+
+.classic-root a:hover {
+  text-decoration: none;
+}
+
+.classic-root section {
+  margin-bottom: 80px;
+  scroll-margin-top: 24px;
+}
+
+.classic-meta {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* ---------- Header ---------- */
+
+.classic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 60px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #000;
+}
+
+.classic-header-content {
+  flex: 1;
+}
+
+.classic-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: 4px;
+}
+
+.classic-root .classic-header nav a {
+  color: #000;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.classic-root .classic-header nav a:hover {
+  font-weight: 700;
+}
+
+/* ---------- Hero ---------- */
+
+.classic-hero {
+  margin-bottom: 70px;
+  text-align: center;
+  animation: classic-fade-up 0.5s ease-out both;
+}
+
+.classic-hero-role {
+  max-width: 760px;
+  margin: 0 auto 26px;
+  font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+  font-weight: 300;
+  line-height: 1.35;
+}
+
+.classic-hero-intro {
+  max-width: 700px;
+  margin: 0 auto 18px;
+  font-size: 1.15rem;
+  line-height: 1.8;
+}
+
+.classic-hero-meta {
+  margin-bottom: 32px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.classic-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.classic-root .classic-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.classic-root .classic-button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* ---------- Impact strip ---------- */
+
+.impact-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.classic-root .impact-tile {
+  padding: 18px 20px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background: #fafafa;
+  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+}
+
+.impact-label {
+  display: block;
+  margin-bottom: 6px;
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.impact-value {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.classic-root .impact-detail {
+  margin-bottom: 0;
+  color: #333;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* ---------- Experience timeline ---------- */
+
+.classic-timeline {
+  position: relative;
+  max-width: 1000px;
+  margin: 40px auto 0;
+  padding: 10px 0 20px;
+}
+
+.classic-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #000;
+  transform: translateX(-50%);
+}
+
+.classic-timeline-item {
+  position: relative;
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: classic-fade-in 0.6s ease-out forwards;
+}
+
+.classic-timeline-item:nth-child(1) {
+  animation-delay: 0.15s;
+}
+
+.classic-timeline-item:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.classic-timeline-item:nth-child(3) {
+  animation-delay: 0.45s;
+}
+
+.classic-timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.classic-timeline-dot {
+  position: absolute;
+  left: 50%;
+  top: 18px;
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+  border: 3px solid #000;
+  border-radius: 50%;
+  background: #fff;
+  transform: translateX(-50%);
+}
+
+.classic-root .classic-timeline-content {
+  width: 45%;
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background: #fff;
+  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.2));
+  transition: filter 0.25s ease;
+}
+
+.classic-root .classic-timeline-content:hover {
+  filter: drop-shadow(7px 7px 5px rgba(0, 0, 0, 0.22));
+}
+
+.classic-timeline-item.left .classic-timeline-content {
+  margin-right: auto;
+}
+
+.classic-timeline-item.right .classic-timeline-content {
+  margin-left: auto;
+}
+
+.classic-timeline-date {
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.classic-root .classic-timeline-title {
+  margin-bottom: 5px;
+  font-size: 1.1rem;
+}
+
+.classic-timeline-company {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.classic-root .classic-timeline-content ul {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+/* ---------- Projects ---------- */
+
+.classic-root .classic-project {
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.classic-root .classic-project:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.classic-project-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.classic-project-year {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.classic-root .classic-gh-link {
+  font-size: 0.9rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.classic-root .classic-gh-link:hover {
+  text-decoration: underline;
+}
+
+.classic-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 16px;
+}
+
+.classic-tech-chip {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background-color: #e8e8e8;
+  color: #333;
+  font-size: 0.78rem;
+}
+
+.classic-root .classic-highlights {
+  margin-bottom: 0;
+  font-size: 0.92rem;
+}
+
+/* ---------- Skills ---------- */
+
+.classic-skills {
+  display: grid;
+  gap: 28px;
+}
+
+.classic-root .classic-skill-group .classic-tech-stack {
+  margin: 0;
+}
+
+/* ---------- Education & credentials ---------- */
+
+.classic-root .classic-education {
+  margin-bottom: 40px;
+}
+
+.classic-root .classic-subsection + .classic-subsection {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.classic-root .classic-cert-list {
+  padding-left: 0;
+  list-style: none;
+}
+
+.classic-cert-list li {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.classic-root .classic-publication {
+  margin-bottom: 24px;
+}
+
+.classic-root .classic-publication:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Contact ---------- */
+
+.classic-root .classic-contact-list {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.classic-contact-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+}
+
+.classic-contact-label {
+  font-weight: 700;
+}
+
+.classic-root .classic-resume-note {
+  padding: 14px 16px;
+  border-left: 3px solid #000;
+  background-color: #f9f9f9;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* ---------- Footer ---------- */
+
+.classic-root .classic-footer {
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 1px solid #000;
+  color: #666;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.classic-footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 30px;
+}
+
+.classic-root .classic-footer-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.classic-root .classic-footer-link:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes classic-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes classic-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  .classic-canvas {
+    padding: 68px 15px 20px;
+  }
+
+  .classic-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .classic-header-content {
+    width: 100%;
+    text-align: center;
+  }
+
+  .classic-root h1 {
+    font-size: 1.6rem;
+  }
+
+  .classic-header nav {
+    justify-content: center;
+  }
+
+  .classic-hero {
+    margin-bottom: 56px;
+  }
+
+  .classic-hero-role {
+    font-size: 1.55rem;
+  }
+
+  .classic-hero-intro {
+    font-size: 1rem;
+  }
+
+  .classic-root section {
+    margin-bottom: 60px;
+  }
+
+  .impact-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .classic-timeline::before,
+  .classic-timeline-dot {
+    left: 30px;
+  }
+
+  .classic-timeline-item.left .classic-timeline-content,
+  .classic-timeline-item.right .classic-timeline-content {
+    width: calc(100% - 80px);
+    margin-right: 0;
+    margin-left: 70px;
+  }
+
+  .classic-cta-row {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .view-mode-toggle {
+    top: 0.7rem;
+    right: 0.7rem;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.75rem;
+  }
+
+  .classic-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .classic-root .classic-button {
+    text-align: center;
+  }
+}
