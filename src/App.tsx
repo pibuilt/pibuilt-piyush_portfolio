@@ -567,9 +567,9 @@ function App() {
               <a
                 href={resumeHref}
                 download="Piyush_Bhuyan_Resume.pdf"
-                title="Condensed version, no phone number. DM me on LinkedIn for the full one."
+                title="Masked version, no phone number. DM me on LinkedIn for the full one."
               >
-                resume<span className="meta-link-qualifier"> (condensed)</span>
+                resume<span className="meta-link-qualifier"> (masked)</span>
               </a>
             </div>
             <ViewModeToggle viewMode="cli" onToggle={handleViewModeToggle} />

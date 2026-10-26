@@ -377,9 +377,9 @@ function ProjectsPage() {
 function ResumePage({ resumeHref }: { resumeHref: string }) {
   return (
     <section>
-      <PageIntro title="Resume" subtitle="Condensed version, no phone number, no spam." />
+      <PageIntro title="Resume" subtitle="Masked version, no phone number, no spam." />
       <p>
-        Grab the condensed PDF below. The full version is one LinkedIn DM away.
+        Grab the Masked PDF below. The full version is one LinkedIn DM away.
       </p>
       <p className="classic-download-row">
         <a className="classic-button" href={resumeHref} download="Piyush_Bhuyan_Resume.pdf">
@@ -472,7 +472,7 @@ function ContactPage({ resumeHref }: { resumeHref: string }) {
       <p className="classic-resume-note">
         Prefer a PDF?{' '}
         <a href={resumeHref} download="Piyush_Bhuyan_Resume.pdf">
-          Download the condensed resume
+          Download the masked resume
         </a>
         . No phone number in this one; DM me on LinkedIn for the full version.
       </p>
